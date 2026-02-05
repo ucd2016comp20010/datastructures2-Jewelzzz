@@ -21,8 +21,10 @@ public class SinglyLinkedList<E> implements List<E> {
          * @param e the element to be stored
          * @param n reference to a node that should follow the new node
          */
-        public Node(E e, Node<E> n) {
-            // TODO
+        public Node(E e, Node<E> n)
+        {
+            element = e;
+            next = n;
         }
 
         // Accessor methods
@@ -32,8 +34,9 @@ public class SinglyLinkedList<E> implements List<E> {
          *
          * @return the element stored at the node
          */
-        public E getElement() {
-            return null;
+        public E getElement()
+        {
+            return element;
         }
 
         /**
@@ -41,9 +44,17 @@ public class SinglyLinkedList<E> implements List<E> {
          *
          * @return the following node
          */
-        public Node<E> getNext() {
-            // TODO
-            return null;
+        public Node<E> getNext()
+        {
+            if (next != null)
+            {
+                return next;
+            }
+
+            else
+            {
+                return null;
+            }
         }
 
         // Modifier methods
@@ -53,8 +64,9 @@ public class SinglyLinkedList<E> implements List<E> {
          *
          * @param n the node that should follow this one
          */
-        public void setNext(Node<E> n) {
-            // TODO
+        public void setNext(Node<E> n)
+        {
+            next = n;
         }
     } //----------- end of nested Node class -----------
 
@@ -69,96 +81,230 @@ public class SinglyLinkedList<E> implements List<E> {
      */
     private int size = 0;                      // number of nodes in the list
 
-    public SinglyLinkedList() {
-    }              // constructs an initially empty list
+    public SinglyLinkedList() // constructs an initially empty list
+    {
 
-    //@Override
-    public int size() {
-        // TODO
-        return 0;
     }
 
     //@Override
-    public boolean isEmpty() {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public E get(int position) {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public void add(int position, E e) {
-        // TODO
-    }
-
-
-    @Override
-    public void addFirst(E e) {
-        // TODO
-    }
-
-    @Override
-    public void addLast(E e) {
-        // TODO
-    }
-
-    @Override
-    public E remove(int position) {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public E removeFirst() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public E removeLast() {
-        // TODO
-        return null;
+    public int size()
+    {
+        return size;
     }
 
     //@Override
-    public Iterator<E> iterator() {
+    public boolean isEmpty()
+    {
+        return head == null; // if the head node is null then there is no list, head isnt even pointing to anything atp its just empty
+    }
+
+    @Override
+    public E get(int position)
+    {
+        if (position < 0 || position >= size)
+        {
+            return null; //can't get a node from an index that doesn't exist
+        }
+
+        else //creates a new node that starts at index 0/head and reassigns itself using the pointer to the next element
+             //until its index matches the desired position. curr is one head of i bc on i = 0 curr is 1
+        {
+            Node<E> curr = head;
+            for (int i = 0; i < position; i++)
+            {
+                curr = curr.next;
+            }
+
+            return curr.element;
+        }
+    }
+
+    @Override
+    public void add(int position, E e)
+    {
+        if (position < 0 || position > size)
+        {
+            throw new IndexOutOfBoundsException("invalid index");
+        }
+
+        else //finds element before insertion position and sets that node's next pointer to the new node
+        {
+            Node<E> prev = head;
+            for (int i = 0; i < position - 1; i++)
+            {
+                prev = prev.next;
+            }
+
+            prev.next = new Node<>(e, prev.next); // setting prev's next pointer to point to the new node, while the new node points to the old prev.next
+            size++;
+        }
+    }
+
+
+    @Override
+    public void addFirst(E e)
+    {
+        head = new Node<>(e, head);
+        size++;
+    }
+
+    @Override
+    public void addLast(E e) //runs until curr.next is pointing to null, then inserts new node that points to null
+    {
+        if (head == null)
+        {
+            addFirst(e);
+        }
+
+        else
+        {
+            Node<E> curr = head;
+            for (int i = 0; i < size - 1; i++)
+            {
+                curr = curr.next;
+            }
+
+            curr.next = new Node<>(e, curr.next);
+            size++;
+        }
+    }
+
+    @Override
+    public E remove(int position)
+    {
+        if (position < 0 || position >= size)
+        {
+            throw new IndexOutOfBoundsException("invalid index");
+        }
+
+        else if (head == null)
+        {
+            return null;
+        }
+
+        else //finds position and makes dump's prev point to dump's next
+        {
+            Node<E> dump = head;
+            Node<E> prev = null;
+            for (int i = 0; i < position; i++)
+            {
+                prev = dump;
+                dump = dump.next;
+            }
+
+            if (prev == null) //need this bc otherwise you'd get a null pointer exception
+            {
+                head = head.next;
+            }
+
+            else
+            {
+                prev.next = dump.next;
+            }
+
+            size--;
+
+            return dump.element;
+        }
+    }
+
+    @Override
+    public E removeFirst()
+    {
+        if (head == null)
+        {
+            return null;
+        }
+
+        else
+        {
+            Node<E> temp = head;
+            head = head.next;
+            size--;
+
+            return temp.element;
+        }
+    }
+
+    @Override
+    public E removeLast()
+    {
+        if (head == null)
+        {
+            return null;
+        }
+
+        //special case: only one element
+        else if (size == 1)
+        {
+            E element = head.element;
+            head = null;
+            size--;
+            return element;
+        }
+
+        else //iterate thru list
+        {
+            Node<E> dump = head;
+            Node<E> prev = null;
+            for (int i = 0; i < size - 1; i++)
+            {
+                prev = dump;
+                dump = dump.next; //dump.next is null when this finishes running
+            }
+
+            prev.next = dump.next;
+
+            size--;
+
+            return dump.element;
+        }
+    }
+
+    //@Override
+    public Iterator<E> iterator()
+    {
         return new SinglyLinkedListIterator<E>();
     }
 
-    private class SinglyLinkedListIterator<E> implements Iterator<E> {
+    private class SinglyLinkedListIterator<E> implements Iterator<E>
+    {
         Node<E> curr = (Node<E>) head;
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext()
+        {
             return curr != null;
         }
 
         @Override
-        public E next() {
+        public E next()
+        {
             E res = curr.getElement();
             curr = curr.next;
             return res;
         }
     }
 
-    public String toString() {
+    public String toString()
+    {
         StringBuilder sb = new StringBuilder("[");
         Node<E> curr = head;
-        while (curr != null) {
+        while (curr != null)
+        {
             sb.append(curr.getElement());
+
             if (curr.getNext() != null)
                 sb.append(", ");
+
             curr = curr.getNext();
         }
         sb.append("]");
         return sb.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SinglyLinkedList<Integer> ll = new SinglyLinkedList<Integer>();
         System.out.println("ll " + ll + " isEmpty: " + ll.isEmpty());
         //LinkedList<Integer> ll = new LinkedList<Integer>();
@@ -169,12 +315,12 @@ public class SinglyLinkedList<E> implements List<E> {
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addLast(-1);
-        //ll.removeLast();
-        //ll.removeFirst();
-        //System.out.println("I accept your apology");
-        //ll.add(3, 2);
+        ll.removeLast();
+        ll.removeFirst();
+        System.out.println("I accept your apology");
+        ll.add(3, 2);
         System.out.println(ll);
-        ll.remove(5);
+        //ll.remove(5);
         System.out.println(ll);
 
     }
