@@ -249,6 +249,42 @@ public class SinglyLinkedList<E> implements List<E> {
         }
     }
 
+    public SinglyLinkedList<E> sortedMerge(SinglyLinkedList<E> list)
+    {
+        SinglyLinkedList<E> result = new SinglyLinkedList<>();
+
+        Node<E> l1 = this.head;
+        Node<E> l2 = list.head;
+
+        while (l1 != null && l2 != null)
+        {
+            if (((Comparable<E>) l1.element).compareTo(l2.element) < 0)
+            {
+                result.addLast(l1.element);
+                l1 = l1.next;
+            }
+
+            else
+            {
+                result.addLast(l2.element);
+                l2 = l2.next;
+            }
+        }
+
+        while (l1 != null) //if any leftover elements in l1 after l2 is null
+        {
+            result.addLast(l1.element);
+            l1 = l1.next;
+        }
+
+        while (l2 != null) //if any leftover elements in l1 after l2 is null
+        {
+            result.addLast(l2.element);
+            l2 = l2.next;
+        }
+        return result;
+    }
+
     //@Override
     public Iterator<E> iterator()
     {
@@ -310,6 +346,5 @@ public class SinglyLinkedList<E> implements List<E> {
         System.out.println(ll);
         ll.remove(5);
         System.out.println(ll);
-
     }
 }
