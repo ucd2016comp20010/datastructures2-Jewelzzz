@@ -6,9 +6,10 @@ import java.util.Iterator;
 
 public class SinglyLinkedList<E> implements List<E> {
 
-    private static class Node<E> {
+    private static class Node<E>
+    {
 
-        private final E element;            // reference to the element stored at this node
+        private E element;            // reference to the element stored at this node
 
         /**
          * A reference to the subsequent node in the list
@@ -46,15 +47,7 @@ public class SinglyLinkedList<E> implements List<E> {
          */
         public Node<E> getNext()
         {
-            if (next != null)
-            {
-                return next;
-            }
-
-            else
-            {
-                return null;
-            }
+            return next;
         }
 
         // Modifier methods
@@ -81,7 +74,7 @@ public class SinglyLinkedList<E> implements List<E> {
      */
     private int size = 0;                      // number of nodes in the list
 
-    public SinglyLinkedList() // constructs an initially empty list
+    public SinglyLinkedList() // constructs an initially empty list (default constructor??)
     {
 
     }
@@ -107,7 +100,7 @@ public class SinglyLinkedList<E> implements List<E> {
         }
 
         else //creates a new node that starts at index 0/head and reassigns itself using the pointer to the next element
-             //until its index matches the desired position. curr is one head of i bc on i = 0 curr is 1
+             //until its index matches the desired position. curr is one ahead of i bc on i = 0 curr is 1
         {
             Node<E> curr = head;
             for (int i = 0; i < position; i++)
@@ -177,11 +170,6 @@ public class SinglyLinkedList<E> implements List<E> {
             throw new IndexOutOfBoundsException("invalid index");
         }
 
-        else if (head == null)
-        {
-            return null;
-        }
-
         else //finds position and makes dump's prev point to dump's next
         {
             Node<E> dump = head;
@@ -211,7 +199,7 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E removeFirst()
     {
-        if (head == null)
+        if (head == null) //means empty list
         {
             return null;
         }
@@ -229,7 +217,7 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E removeLast()
     {
-        if (head == null)
+        if (head == null) //means empty list
         {
             return null;
         }
@@ -315,12 +303,12 @@ public class SinglyLinkedList<E> implements List<E> {
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addLast(-1);
-        ll.removeLast();
+        //ll.removeLast();
         ll.removeFirst();
         System.out.println("I accept your apology");
         ll.add(3, 2);
         System.out.println(ll);
-        //ll.remove(5);
+        ll.remove(5);
         System.out.println(ll);
 
     }
