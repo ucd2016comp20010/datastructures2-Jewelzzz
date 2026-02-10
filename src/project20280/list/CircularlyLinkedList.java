@@ -135,6 +135,11 @@ public class CircularlyLinkedList<E> implements List<E> {
             else
             {
                prev.next = dump.next;
+               if (dump == tail)
+               {
+                   tail = prev; //replaces the tail that gets removed
+               }
+
             }
 
             size--;
@@ -189,6 +194,15 @@ public class CircularlyLinkedList<E> implements List<E> {
         if (tail == null) //means empty list
         {
             return null;
+        }
+
+        else if (size == 1) // Only one element
+        {
+            Node<E> temp = tail;
+            tail = null;
+            size--;
+
+            return temp.data;
         }
 
         else
@@ -262,6 +276,11 @@ public class CircularlyLinkedList<E> implements List<E> {
 
     public String toString()
     {
+        if (tail == null) //handle empty list
+        {
+            return "[]";
+        }
+
         StringBuilder sb = new StringBuilder("[");
         Node<E> curr = tail;
         do
@@ -307,6 +326,5 @@ public class CircularlyLinkedList<E> implements List<E> {
         for (Integer e : ll) {
             System.out.println("value: " + e);
         }
-
     }
 }
