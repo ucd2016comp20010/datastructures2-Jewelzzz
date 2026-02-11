@@ -7,41 +7,50 @@ public class LinkedStack<E> implements Stack<E> {
 
     DoublyLinkedList<E> ll;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
     }
 
-    public LinkedStack() {
+    public LinkedStack()
+    {
         // TODO
+        ll = new DoublyLinkedList<>();
     }
 
     @Override
-    public int size() {
+    public int size()
+    {
         return ll.size();
     }
 
     @Override
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return ll.isEmpty();
     }
 
     @Override
-    public void push(E e) {
+    public void push(E e)
+    {
         // TODO
+        ll.addFirst(e);
     }
 
     @Override
     public E top() {
         // TODO
-        return null;
+        return ll.first();
     }
 
     @Override
-    public E pop() {
+    public E pop()
+    {
         // TODO
-        return null;
+        return ll.removeFirst();
     }
 
-    public String toString() {
+    public String toString()
+    {
         return ll.toString();
     }
 }
