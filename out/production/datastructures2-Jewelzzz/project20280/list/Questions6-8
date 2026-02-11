@@ -1,0 +1,12 @@
+Q6: The difference between a singly linked list and a circularly linked list
+is that while a singly linked list has a defined head and a null pointer to indicate the end of the list,
+a circularly linked list has no ending null pointer as it loops back to the first element after reaching the tail.
+There's no real beginning, you can start anywhere, and it just keeps going around in order without a stopping point.
+
+Q7: Linked lists are preferred to arrays when you don't know how many elements you'll need,
+or when you know that you want to change the order of elements or insert elements into the list.
+
+Q8: One possible use case for a circularly linked list is implementing a queue. Since the list is circular
+it serves well to a FIFO model where the first element in can be the first element out. Another possible use case
+is something like a card game with multiple players. It starts at one player, goes all the way around to the last
+person that hasn't yet had a turn, and then goes back to the first person that had their turn.
