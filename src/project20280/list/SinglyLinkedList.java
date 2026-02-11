@@ -2,6 +2,7 @@ package project20280.list;
 
 import project20280.interfaces.List;
 
+import java.sql.SQLOutput;
 import java.util.Iterator;
 
 public class SinglyLinkedList<E> implements List<E> {
@@ -302,6 +303,20 @@ public class SinglyLinkedList<E> implements List<E> {
         head = prev;
     }
 
+    public SinglyLinkedList<E> copy()
+    {
+        SinglyLinkedList<E> twin = new SinglyLinkedList<>();
+        Node<E> temp = head;
+
+        while (temp != null)
+        {
+            twin.addLast(temp.getElement());
+            temp = temp.next;
+        }
+
+        return twin;
+    }
+
     //@Override
     public Iterator<E> iterator()
     {
@@ -386,5 +401,10 @@ public class SinglyLinkedList<E> implements List<E> {
         //reverse test
         l1.reverse();
         System.out.println(l1);
+
+        //copy test
+        SinglyLinkedList<Integer> clone = l2.copy();
+        System.out.println(l2);
+        System.out.println(clone);
     }
 }
