@@ -1,0 +1,37 @@
+q2:
+// stacks: s1, s2
+
+enqueue(x):
+    push x onto s1
+
+dequeue():
+    if s2 is empty:
+        while s1 is not empty:
+            s2.push(s1.pop())
+
+    if s2 is empty:
+        // queue is empty
+        return null
+
+    else
+        return s2.pop()
+
+
+
+q3:
+
+// s is the stack to reverse
+// x and y are two empty additional stacks
+
+reverse(s):
+    // move from s to x
+    while s is not empty:
+        x.push(s.pop())
+
+    // move from x to y
+    while x is not empty:
+        y.push(x.pop())
+
+    // move from y back to s
+    while y is not empty:
+        s.push(y.pop())
