@@ -73,7 +73,7 @@ public class ArrayStack<E> implements Stack<E> {
         // TODO
         if (size() == data.length)
         {
-            throw new StackOverflowError("stack is full");
+            throw new IllegalStateException("stack is full");
         }
 
         else
