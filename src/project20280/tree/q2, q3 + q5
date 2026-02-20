@@ -1,0 +1,94 @@
+q2:
+
+<--pseudocode-->
+countExternal(p):
+    input: Position p
+    output: num of external nodes in subtree rooted at p
+
+    if p == null
+        return 0
+
+    if left(p) == null AND right(p) == null
+        return 1  //it's a leaf
+
+    return countExternal(left(p)) + countExternal(right(p))
+
+
+countExternal():
+    return countExternal(root())
+
+
+
+<--java code-->
+public int countExternal(Position<E> p)
+{
+    if (p == null)
+    {
+        return 0;
+    }
+
+    if (left(p) == null && right(p) == null)
+    {
+        return 1; // it's a leaf
+    }
+
+    return countExternal(left(p)) + countExternal(right(p));
+}
+
+public int countExternal()
+{
+    return countExternal(root());
+}
+
+
+
+
+q3:
+
+public int countLeftExternal(Position<E> p)
+{
+    if (p == null)
+    {
+        return 0;
+    }
+    int count = 0;
+    Position<E> leftChild = left(p);
+
+    //if left child exists and is a leaf, it's a left external node
+    if (leftChild != null && left(leftChild) == null && right(leftChild) == null)
+    {
+        count = 1;
+    }
+
+    return count + countLeftExternal(left(p)) + countLeftExternal(right(p));
+}
+
+public int countLeftExternal()
+{
+    return countLeftExternal(root());
+}
+
+
+
+q5:
+
+countDescendants(p):
+    input: Position p
+    output: total number of descendants of node at position p
+
+    if p == null
+        return 0
+
+    if left(p) == null AND right(p) == null
+        return 0  // leaf has no descendants
+
+    leftCount = 0
+    rightCount = 0
+
+    if left(p) != null
+        leftCount = 1 + countDescendants(left(p))
+
+    if right(p) != null
+        rightCount = 1 + countDescendants(right(p))
+
+    return leftCount + rightCount
