@@ -23,9 +23,26 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @throws IllegalArgumentException if p is not a valid Position for this tree
      */
     @Override
-    public Position<E> sibling(Position<E> p) {
+    public Position<E> sibling(Position<E> p)
+    {
         // TODO
-        return null;
+        Position<E> parent = parent(p);
+
+        if (parent == null)
+        {
+            return null; //p is root, no sibling
+        }
+
+        if (p == left(parent))
+        {
+            return right(parent); //might be null
+        }
+
+        else
+        {
+            return left(parent); //might be null
+        }
+
     }
 
     /**
@@ -36,9 +53,22 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     @Override
-    public int numChildren(Position<E> p) {
+    public int numChildren(Position<E> p)
+    {
         // TODO
-        return 0;
+        int count = 0;
+
+        if (left(p) != null)
+        {
+            count++;
+        }
+
+        if (right(p) != null)
+        {
+            count++;
+        }
+
+        return count;
     }
 
     /**
@@ -49,12 +79,16 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     @Override
-    public Iterable<Position<E>> children(Position<E> p) {
+    public Iterable<Position<E>> children(Position<E> p)
+    {
         List<Position<E>> snapshot = new ArrayList<>(2);    // max capacity of 2
+
         if (left(p) != null)
             snapshot.add(left(p));
+
         if (right(p) != null)
             snapshot.add(right(p));
+
         return snapshot;
     }
 
@@ -65,8 +99,20 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @param p        Position serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void inorderSubtree(Position<E> p, List<Position<E>> snapshot) {
+    private void inorderSubtree(Position<E> p, List<Position<E>> snapshot)
+    {
         // TODO
+        if (left(p) != null)
+        {
+            inorderSubtree(left(p), snapshot);
+        }
+
+        snapshot.add(p);
+
+        if (right(p) != null)
+        {
+            inorderSubtree(right(p), snapshot);
+        }
     }
 
     /**
@@ -74,10 +120,13 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      *
      * @return iterable collection of the tree's positions reported in inorder
      */
-    public Iterable<Position<E>> inorder() {
+    public Iterable<Position<E>> inorder()
+    {
         List<Position<E>> snapshot = new ArrayList<>();
+
         if (!isEmpty())
             inorderSubtree(root(), snapshot);   // fill the snapshot recursively
+
         return snapshot;
     }
 
@@ -87,7 +136,8 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @return iterable collection of the tree's positions using inorder traversal
      */
     @Override
-    public Iterable<Position<E>> positions() {
+    public Iterable<Position<E>> positions()
+    {
         return inorder();
     }
 }

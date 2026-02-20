@@ -26,9 +26,10 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     @Override
-    public boolean isInternal(Position<E> p) {
+    public boolean isInternal(Position<E> p)
+    {
         // TODO
-        return false;
+        return numChildren(p) > 0;
     }
 
     /**
@@ -39,9 +40,10 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     @Override
-    public boolean isExternal(Position<E> p) {
+    public boolean isExternal(Position<E> p)
+    {
         // TODO
-        return false;
+        return numChildren(p) == 0;
     }
 
     /**
@@ -51,9 +53,10 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return true if p is the root of the tree, false otherwise
      */
     @Override
-    public boolean isRoot(Position<E> p) {
+    public boolean isRoot(Position<E> p)
+    {
         // TODO
-        return false;
+        return p == root();
     }
 
     /**
@@ -64,9 +67,15 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     @Override
-    public int numChildren(Position<E> p) {
+    public int numChildren(Position<E> p)
+    {
         // TODO
-        return 0;
+        int count = 0;
+        for (Position<E> child : children(p))
+        {
+            count++;
+        }
+        return count;
     }
 
     /**
@@ -75,9 +84,13 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return number of nodes in the tree
      */
     @Override
-    public int size() {
+    public int size()
+    {
         int count = 0;
-        for (Position p : positions()) count++;
+        for (Position<E> p : positions())
+        {
+            count++;
+        }
         return count;
     }
 
@@ -87,7 +100,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return true if the tree is empty, false otherwise
      */
     @Override
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return size() == 0;
     }
 
@@ -99,9 +113,14 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param p A valid Position within the tree
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
-    public int depth(Position<E> p) throws IllegalArgumentException {
+    public int depth(Position<E> p) throws IllegalArgumentException
+    {
         // TODO
-        return 0;
+        if (isRoot(p))
+        {
+            return 0;
+        }
+        return 1 + depth(parent(p));
     }
 
     /**
@@ -109,17 +128,34 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * <p>
      * Note: This implementation works, but runs in O(n^2) worst-case time.
      */
-    private int heightBad() {             // works, but quadratic worst-case time
+    private int heightBad() // works, but quadratic worst-case time
+    {
         int h = 0;
         for (Position<E> p : positions())
+        {
             if (isExternal(p))                // only consider leaf positions
+            {
                 h = Math.max(h, depth(p));
+            }
+        }
         return h;
     }
 
-    public int height_recursive(Position<E> p) {
+    public int height_recursive(Position<E> p)
+    {
         // TODO
-        return 0;
+        if (p == null || isExternal(p))
+        {
+            return 0;
+        }
+
+        int h = 0;
+        for (Position<E> child : children(p))
+        {
+            h = Math.max(h, height_recursive(child));
+        }
+
+        return 1 + h;
     }
 
     /**
@@ -128,7 +164,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param p A valid Position within the tree
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
-    public int height() throws IllegalArgumentException {
+    public int height() throws IllegalArgumentException
+    {
         return height_recursive(root());
     }
 
@@ -139,15 +176,18 @@ public abstract class AbstractTree<E> implements Tree<E> {
     private class ElementIterator implements Iterator<E> {
         Iterator<Position<E>> posIterator = positions().iterator();
 
-        public boolean hasNext() {
+        public boolean hasNext()
+        {
             return posIterator.hasNext();
         }
 
-        public E next() {
+        public E next()
+        {
             return posIterator.next().getElement();
         } // return element!
 
-        public void remove() {
+        public void remove()
+        {
             posIterator.remove();
         }
     }
@@ -158,7 +198,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return iterator of the tree's elements
      */
     @Override
-    public Iterator<E> iterator() {
+    public Iterator<E> iterator()
+    {
         return new ElementIterator();
     }
 
@@ -168,7 +209,8 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @return iterable collection of the tree's positions
      */
     @Override
-    public Iterable<Position<E>> positions() {
+    public Iterable<Position<E>> positions()
+    {
         return preorder();
     }
 
@@ -179,8 +221,14 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param p        Position serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void preorderSubtree(Position<E> p, List<Position<E>> snapshot) {
+    private void preorderSubtree(Position<E> p, List<Position<E>> snapshot)
+    {
         // TODO
+        snapshot.add(p);
+        for (Position<E> child : children(p))
+        {
+            preorderSubtree(child, snapshot);
+        }
     }
 
     /**
@@ -188,9 +236,15 @@ public abstract class AbstractTree<E> implements Tree<E> {
      *
      * @return iterable collection of the tree's positions in preorder
      */
-    public Iterable<Position<E>> preorder() {
+    public Iterable<Position<E>> preorder()
+    {
         // TODO
-        return null;
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (!isEmpty())
+        {
+            preorderSubtree(root(), snapshot);
+        }
+        return snapshot;
     }
 
     /**
@@ -200,8 +254,14 @@ public abstract class AbstractTree<E> implements Tree<E> {
      * @param p        Position serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void postorderSubtree(Position<E> p, List<Position<E>> snapshot) {
+    private void postorderSubtree(Position<E> p, List<Position<E>> snapshot)
+    {
         // TODO
+        for (Position<E> child : children(p))
+        {
+            postorderSubtree(child, snapshot);
+        }
+        snapshot.add(p);
     }
 
     /**
@@ -209,10 +269,13 @@ public abstract class AbstractTree<E> implements Tree<E> {
      *
      * @return iterable collection of the tree's positions in postorder
      */
-    public Iterable<Position<E>> postorder() {
+    public Iterable<Position<E>> postorder()
+    {
         List<Position<E>> snapshot = new ArrayList<>();
         if (!isEmpty())
+        {
             postorderSubtree(root(), snapshot);   // fill the snapshot recursively
+        }
         return snapshot;
     }
 
@@ -221,8 +284,25 @@ public abstract class AbstractTree<E> implements Tree<E> {
      *
      * @return iterable collection of the tree's positions in breadth-first order
      */
-    public Iterable<Position<E>> breadthfirst() {
+    public Iterable<Position<E>> breadthfirst()
+    {
         // TODO
-        return null;
+        List<Position<E>> snapshot = new ArrayList<>();
+        if (isEmpty()) return snapshot;
+
+        java.util.Queue<Position<E>> queue = new java.util.LinkedList<>();
+        queue.add(root());
+
+        while (!queue.isEmpty())
+        {
+            Position<E> p = queue.poll();
+            snapshot.add(p);
+            for (Position<E> child : children(p))
+            {
+                queue.add(child);
+            }
+        }
+
+        return snapshot;
     }
 }

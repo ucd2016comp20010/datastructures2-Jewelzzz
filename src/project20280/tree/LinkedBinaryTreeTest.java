@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LinkedBinaryTreeTest {
 
     @Test
-    void testSize() {
+    void testSize()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
         Position<Integer> root = bt.addRoot(1);
         assertEquals(1, bt.size());
@@ -20,7 +21,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testAddRoot() {
+    void testAddRoot()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer c = Integer.parseInt("0");
@@ -29,7 +31,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testAddLeft() {
+    void testAddLeft()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer c = Integer.parseInt("0");
@@ -39,7 +42,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testAddRight() {
+    void testAddRight()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer c = Integer.parseInt("0");
@@ -49,7 +53,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testRemove() {
+    void testRemove()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer c = Integer.parseInt("0");
@@ -61,7 +66,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testToString() {
+    void testToString()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -71,7 +77,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testCreateLevelOrder() {
+    void testCreateLevelOrder()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -81,7 +88,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testInorder() {
+    void testInorder()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -91,7 +99,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testDepth() {
+    void testDepth()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -101,7 +110,8 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testHeight() {
+    void testHeight()
+    {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
